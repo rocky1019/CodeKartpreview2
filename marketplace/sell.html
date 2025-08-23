@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sell Your Project - CodeKart</title>
+  <link rel="icon" type="image/png" href="assets/images/codekart-removebg-preview.png">
+  <link rel="stylesheet" href="assets/style/style.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div id="logo">
+      <img src="assets/images/codekart-removebg-preview.png" alt="CodeKart Logo">
+      <span>CodeKart</span>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="prouduct.html">Explore</a></li>
+        <li><a href="sell.html" class="active">Sell</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="hamburger">&#9776;</div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="hero">
+    <div class="hero-text">
+      <h1>Sell Your Code & Templates</h1>
+      <p>Share your projects with thousands of developers across India 🇮🇳</p>
+    </div>
+  </section>
+
+  <!-- Sell Form -->
+  <section id="sell-form-section">
+    <div class="sell-container">
+      <h2>Submit Your Project</h2>
+      <p>Fill in the details below to start selling your template or project.</p>
+      <form id="sell-form">
+        <label for="project-name">Project Name</label>
+        <input type="text" id="project-name" placeholder="Enter your project name" required>
+
+        <label for="project-description">Description</label>
+        <textarea id="project-description" rows="5" placeholder="Describe your project" required></textarea>
+
+        <label for="project-image">Upload Image</label>
+        <input type="file" id="project-image" accept="image/*" required>
+
+        <label for="project-link">Demo / Repo Link</label>
+        <input type="url" id="project-link" placeholder="Enter link to project/demo" required>
+
+        <button type="submit" class="btn-primary">Submit Project</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-logo">
+        <img src="assets/images/codekart-removebg-preview.png" alt="CodeKart Logo">
+        <span>CodeKart</span>
+      </div>
+      <div class="footer-links">
+        <div class="links-section">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="explore.html">Explore</a></li>
+            <li><a href="sell.html">Sell</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="links-section">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Docs</a></li>
+            <li><a href="#">FAQs</a></li>
+          </ul>
+        </div>
+        <div class="links-section">
+          <h4>Follow Us</h4>
+          <ul class="social-links">
+            <li><a href="#">Twitter</a></li>
+            <li><a href="#">LinkedIn</a></li>
+            <li><a href="#">GitHub</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="newsletter">
+        <h4>Subscribe</h4>
+        <p>Get updates and new templates in your inbox.</p>
+        <form>
+          <input type="email" placeholder="Your email">
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 CodeKart. Made with ❤️ in India.</p>
+    </div>
+  </footer>
+
+  <script>
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('nav ul');
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+
+    // Placeholder form submission
+    const sellForm = document.getElementById('sell-form');
+    sellForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert("Project submitted! (Functionality will be added with backend)");
+      sellForm.reset();
+    });
+  </script>
+  <style>
+    /* ========== SELL PAGE ========== */
+#sell-form-section {
+  padding: 3rem 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.sell-container {
+  background: var(--card);
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.sell-container h2 {
+  color: var(--primary);
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.sell-container p {
+  color: #555;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.sell-container form label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-weight: 500;
+  color: var(--primary);
+}
+
+.sell-container form input,
+.sell-container form textarea {
+  width: 100%;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.sell-container form button.btn-primary {
+  width: 100%;
+  padding: 0.8rem;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.sell-container form button.btn-primary:hover {
+  background: #e05555;
+  transform: scale(1.03);
+}
+
+  </style>
+</body>
+</html>
+

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explore Templates - CodeKart</title>
+  <link rel="icon" type="image/png" href="assets/images/codekart-removebg-preview.png">
+  <link rel="stylesheet" href="assets/style/style.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <header class="navbar">
+    <div id="logo">
+      <img src="assets/images/codekart-removebg-preview.png" alt="CodeKart Logo">
+      <span>CodeKart</span>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="explore.html" class="active">Explore</a></li>
+        <li><a href="sell.html">Sell</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="hamburger">&#9776;</div>
+  </header>
+
+  <!-- Hero -->
+  <section id="hero">
+    <div class="hero-text">
+      <h1>Explore Templates & Projects</h1>
+      <p>Browse the best code projects, templates, and scripts by Indian developers 🇮🇳</p>
+      <div class="hero-buttons">
+        <a href="login.html" class="btn-primary">Login</a>
+        <a href="signup.html" class="btn-secondary">Sign Up</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- All Products Grid -->
+  <section id="products-grid-section">
+    <h2>All Templates</h2>
+    <div class="products-grid">
+      <!-- Example product cards -->
+      <div class="product-card">
+        <img src="assets/images/Screenshot 2025-08-12 235747.png" alt="Group Study App">
+        <h3>Group Study App</h3>
+        <p>Complete rooms-based study app with backend.</p>
+        <a href="#" class="btn">View</a>
+      </div>
+      <div class="product-card">
+        <img src="assets/images/Screenshot 2025-08-21 185856.png" alt="Password Manager">
+        <h3>Password Manager</h3>
+        <p>Local storage-based password manager website.</p>
+        <a href="#" class="btn">View</a>
+      </div>
+      <div class="product-card">
+        <img src="assets/images/Screenshot 2025-08-21 190359.png" alt="AI Toolbox">
+        <h3>AI Toolbox</h3>
+        <p>All-in-one AI toolbox for creators and coders.</p>
+        <a href="#" class="btn">View</a>
+      </div>
+      <div class="product-card">
+        <img src="assets/images/Screenshot 2025-08-21 190800.png" alt="Portfolio Template">
+        <h3>Portfolio Template</h3>
+        <p>Modern responsive portfolio website template.</p>
+        <a href="#" class="btn">View</a>
+      </div>
+      <div class="product-card">
+        <img src="assets/images/Screenshot 2025-08-21 191200.png" alt="E-commerce Template">
+        <h3>E-commerce Template</h3>
+        <p>Frontend e-commerce template with cart & checkout.</p>
+        <a href="#" class="btn">View</a>
+      </div>
+      <div class="product-card">
+        <img src="assets/images/Screenshot 2025-08-21 191500.png" alt="Chat App">
+        <h3>Chat App</h3>
+        <p>Realtime chat app with Firebase integration.</p>
+        <a href="#" class="btn">View</a>
+      </div>
+      <!-- Add more product cards as needed -->
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="cta">
+    <h2>Have a Template to Sell?</h2>
+    <p>Join CodeKart and start monetizing your code today!</p>
+    <a href="sell.html" class="btn">Start Selling</a>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-logo">
+        <img src="assets/images/codekart-removebg-preview.png" alt="CodeKart Logo">
+        <span>CodeKart</span>
+      </div>
+      <div class="footer-links">
+        <div class="links-section">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="explore.html">Explore</a></li>
+            <li><a href="sell.html">Sell</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="links-section">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Docs</a></li>
+            <li><a href="#">FAQs</a></li>
+          </ul>
+        </div>
+        <div class="links-section">
+          <h4>Follow Us</h4>
+          <ul class="social-links">
+            <li><a href="#">Twitter</a></li>
+            <li><a href="#">LinkedIn</a></li>
+            <li><a href="#">GitHub</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="newsletter">
+        <h4>Subscribe</h4>
+        <p>Get updates and new templates in your inbox.</p>
+        <form>
+          <input type="email" placeholder="Your email">
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 CodeKart. Made with ❤️ in India.</p>
+    </div>
+  </footer>
+
+  <script>
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('nav ul');
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+  </script>
+</body>
+</html>

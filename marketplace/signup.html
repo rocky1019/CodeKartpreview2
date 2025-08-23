@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up - CodeKart</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/codekart-removebg-preview.png">
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #F7F9FC;
+      margin: 0;
+      color: #1A1A1A;
+    }
+
+    /* Navbar */
+    .navbar {
+      background: #ffffff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid #e5e5e5;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    #codekart-logo { display: flex; align-items: center; gap: 12px; font-size: 1.6rem; font-weight: bold; color: orange; }
+    #codekart-logo img { height: 45px; width: auto; }
+    .navbar ul { list-style: none; display: flex; gap: 1.5rem; }
+    .navbar ul li a { text-decoration: none; color: #1A1A1A; font-weight: 500; transition: 0.3s; }
+    .navbar ul li a:hover, .navbar ul li a.active { color: #4ECDC4; }
+    .navbar .btn { padding: 0.5rem 1rem; border-radius: 8px; background: #FF6B6B; color: #fff !important; font-weight: 600; }
+    .navbar .btn:hover { background: #e85a5a; }
+
+    /* Signup Container */
+    .signup-wrapper {
+      display: flex;
+      max-width: 900px;
+      margin: 3rem auto;
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+
+    .signup-form {
+      flex: 1;
+      padding: 3rem 2rem;
+    }
+
+    .signup-form h2 {
+      color: #FF6B6B;
+      margin-bottom: 1.5rem;
+    }
+
+    .signup-form input {
+      width: 100%;
+      padding: 0.8rem;
+      margin-bottom: 1rem;
+      border: 1px solid #e5e5e5;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    .signup-form button {
+      width: 100%;
+      padding: 0.8rem;
+      border: none;
+      border-radius: 30px;
+      background: #4ECDC4;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .signup-form button:hover { opacity: 0.9; }
+
+    .signup-form p {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      color: #6C757D;
+    }
+
+    .signup-form a { color: #FF6B6B; text-decoration: none; }
+
+    /* Benefits Section */
+    .signup-benefits {
+      flex: 1;
+      background: linear-gradient(135deg, #FFD93D, #FF6B6B);
+      color: #fff;
+      padding: 3rem 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .signup-benefits h3 { margin-bottom: 1rem; }
+    .signup-benefits ul { list-style: none; padding: 0; }
+    .signup-benefits li {
+      margin-bottom: 1rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .signup-benefits li::before {
+      content: "✔";
+      color: #fff;
+      font-weight: bold;
+    }
+
+    @media(max-width:768px){
+      .signup-wrapper { flex-direction: column; margin: 2rem 1rem; }
+      .signup-benefits { order: -1; text-align: center; padding: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<header class="navbar">
+  <div id="codekart-logo">
+    <img src="assets/images/codekart-removebg-preview.png" alt="CodeKart Logo">
+    <span>CodeKart</span>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="prouduct.html">Explore</a></li>
+      <li><a href="sell.html">Sell</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="login.html" class="btn">Login</a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- Signup Form & Benefits -->
+<div class="signup-wrapper">
+  <div class="signup-form">
+    <h2>Create Your Account</h2>
+    <form>
+      <input type="text" placeholder="Full Name" required>
+      <input type="email" placeholder="Email" required>
+      <input type="password" placeholder="Password" required>
+      <input type="password" placeholder="Confirm Password" required>
+      <button type="submit">Sign Up</button>
+    </form>
+    <p>Already have an account? <a href="login.html">Login</a></p>
+  </div>
+
+  <div class="signup-benefits">
+    <h3>Why Join CodeKart?</h3>
+    <ul>
+      <li>Sell your projects with UPI & local payments</li>
+      <li>Reach thousands of Indian developers</li>
+      <li>Quick and easy product uploads</li>
+      <li>Exclusive dev community & resources</li>
+    </ul>
+  </div>
+</div>
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-logo">
+      <img src="assets/images/codekart-removebg-preview.png" alt="CodeKart Logo">
+      <span>CodeKart</span>
+    </div>
+    <div class="footer-links">
+      <div class="links-section">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="products.html">Explore</a></li>
+          <li><a href="sell.html">Sell</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="links-section">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Docs</a></li>
+          <li><a href="#">FAQs</a></li>
+        </ul>
+      </div>
+      <div class="links-section">
+        <h4>Follow Us</h4>
+        <ul class="social-links">
+          <li><a href="#">Twitter</a></li>
+          <li><a href="#">LinkedIn</a></li>
+          <li><a href="#">GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="newsletter">
+      <h4>Subscribe</h4>
+      <p>Get updates and new templates directly in your inbox.</p>
+      <form>
+        <input type="email" placeholder="Your email">
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 CodeKart. Made with ❤️ in India.</p>
+  </div>
+</footer>
+
+<style>
+.footer {
+  background: #1A1A1A;
+  color: #fff;
+  padding: 3rem 2rem 1rem 2rem;
+  font-size: 0.9rem;
+}
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: auto;
+  justify-content: space-between;
+}
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: orange;
+}
+.footer-logo img {
+  height: 40px;
+  width: auto;
+}
+.footer-links {
+  display: flex;
+  gap: 3rem;
+}
+.links-section h4 {
+  margin-bottom: 0.8rem;
+  color: #FF6B6B;
+}
+.links-section ul {
+  list-style: none;
+  padding: 0;
+}
+.links-section ul li {
+  margin-bottom: 0.5rem;
+}
+.links-section ul li a {
+  color: #fff;
+  text-decoration: none;
+  transition: 0.3s;
+}
+.links-section ul li a:hover {
+  color: #4ECDC4;
+}
+.social-links li {
+  display: inline-block;
+  margin-right: 0.8rem;
+}
+.newsletter {
+  flex: 1;
+  min-width: 250px;
+}
+.newsletter h4 {
+  color: #FF6B6B;
+  margin-bottom: 0.5rem;
+}
+.newsletter form {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+.newsletter input {
+  flex: 1;
+  padding: 0.6rem;
+  border-radius: 6px;
+  border: none;
+}
+.newsletter button {
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  border: none;
+  background: #4ECDC4;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+.newsletter button:hover { opacity: 0.9; }
+.footer-bottom {
+  text-align: center;
+  margin-top: 2rem;
+  border-top: 1px solid #333;
+  padding-top: 1rem;
+  color: #aaa;
+}
+@media(max-width:768px){
+  .footer-container { flex-direction: column; align-items: center; }
+  .footer-links { flex-direction: column; align-items: center; gap: 1.5rem; }
+  .newsletter form { flex-direction: column; }
+  .newsletter input, .newsletter button { width: 100%; }
+}
+</style>
+</body>
+</html>

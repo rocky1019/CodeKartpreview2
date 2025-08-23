@@ -1,0 +1,248 @@
+/* ===== Reset ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background: #F7F9FC;
+  color: #1A1A1A;
+  line-height: 1.6;
+}
+
+/* ===== Navbar ===== */
+.products-navbar {
+  background: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #e5e5e5;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+#products-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: orange;
+}
+
+#products-logo img {
+  height: 45px;
+  width: auto;
+}
+
+.products-navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.products-navbar ul li a {
+  text-decoration: none;
+  color: #1A1A1A;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.products-navbar ul li a:hover,
+.products-navbar ul li a.active {
+  color: #4ECDC4;
+}
+
+.products-navbar .btn {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  background: #FF6B6B;
+  color: #fff !important;
+  font-weight: 600;
+}
+
+.products-navbar .btn:hover {
+  background: #e85a5a;
+}
+
+/* ===== Hero Section ===== */
+#products-hero {
+  text-align: center;
+  padding: 5rem 2rem;
+  background: linear-gradient(135deg, #FF6B6B, #FFD93D);
+  color: #fff;
+  border-radius: 40px 40px 40px 40px;
+}
+
+#products-hero h1 {
+  font-size: 2.8rem;
+  margin-bottom: 1rem;
+}
+
+#products-hero p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+/* ===== Products Grid ===== */
+#products-grid-section {
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+#products-grid-section h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #FF6B6B;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.product-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transition: transform 0.3s, box-shadow 0.3s;
+  text-align: center;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+}
+
+.product-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+.product-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: #FF6B6B;
+}
+
+.product-card p {
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+  color: #6C757D;
+}
+
+.product-card .btn {
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  border-radius: 8px;
+  background: #4ECDC4;
+  color: #fff;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.product-card .btn:hover {
+  background: #3bb5aa;
+}
+
+/* ===== CTA Section ===== */
+#products-cta {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: #4ECDC4;
+  color: #fff;
+  border-radius: 20px;
+  max-width: 1000px;
+  margin: 3rem auto;
+}
+
+#products-cta h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+#products-cta p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+#products-cta .btn {
+  padding: 0.8rem 1.5rem;
+  border-radius: 30px;
+  text-decoration: none;
+  background: #FFD93D;
+  color: #1A1A1A;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+#products-cta .btn:hover {
+  opacity: 0.9;
+}
+
+/* ===== Footer ===== */
+#products-footer {
+  text-align: center;
+  padding: 2rem;
+  background: #ffffff;
+  border-top: 1px solid #e5e5e5;
+  color: #6C757D;
+  font-size: 0.9rem;
+}
+
+/* ===== Mobile Responsive ===== */
+@media (max-width: 768px) {
+  .products-navbar {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  nav {
+    margin-top: 10px;
+  }
+
+  #products-hero {
+    padding: 60px 20px;
+  }
+
+  #products-hero h1 {
+    font-size: 2rem;
+  }
+
+  #products-hero p {
+    font-size: 1rem;
+  }
+
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #products-cta {
+    margin: 2rem 0;
+  }
+}
+
+@media (max-width: 480px) {
+  #products-hero h1 {
+    font-size: 1.6rem;
+  }
+
+  #products-hero p {
+    font-size: 0.9rem;
+  }
+
+  .product-card .btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 1rem;
+  }
+}
