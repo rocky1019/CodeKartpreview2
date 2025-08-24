@@ -1,268 +1,182 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Login - CodeKart</title>
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/codekart-removebg-preview.png">
+  <link rel="icon" type="image/png" href="assets/images/codekart-removebg-preview.png" />
   <style>
-    body {
-      font-family: "Poppins", sans-serif;
-      background: #F7F9FC;
-      margin: 0;
-      color: #1A1A1A;
+    :root {
+      --primary:#FF6B6B; --secondary:#4ECDC4; --bg:#f4f4f4; --card:#fff; --text:#111;
     }
+    *{ box-sizing:border-box; margin:0; padding:0; font-family:'Poppins',sans-serif; }
+    body{ background:var(--bg); color:var(--text); }
 
     /* Navbar */
-    .navbar {
-      background: #ffffff;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      border-bottom: 1px solid #e5e5e5;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-    #codekart-logo { display: flex; align-items: center; gap: 12px; font-size: 1.6rem; font-weight: bold; color: orange; }
-    #codekart-logo img { height: 45px; width: auto; }
-    .navbar ul { list-style: none; display: flex; gap: 1.5rem; }
-    .navbar ul li a { text-decoration: none; color: #1A1A1A; font-weight: 500; transition: 0.3s; }
-    .navbar ul li a:hover, .navbar ul li a.active { color: #4ECDC4; }
-    .navbar .btn { padding: 0.5rem 1rem; border-radius: 8px; background: #FF6B6B; color: #fff !important; font-weight: 600; }
-    .navbar .btn:hover { background: #e85a5a; }
+    header.navbar{ display:flex; justify-content:space-between; align-items:center; padding:1rem 2rem; background:var(--card); box-shadow:0 2px 5px rgba(0,0,0,.1); position:sticky; top:0; z-index:10; }
+    #logo{ display:flex; align-items:center; gap:8px; font-size:1.5rem; font-weight:bold; color:var(--primary); }
+    #logo img{ height:40px; width:auto; }
+    nav ul{ display:flex; gap:2rem; list-style:none; }
+    nav ul li a{ color:var(--text); text-decoration:none; transition:.3s; }
+    nav ul li a:hover, nav ul li a.active{ color:var(--primary); }
+    .hamburger{ display:none; font-size:2rem; cursor:pointer; }
 
-    /* Login Container */
-    .login-container {
-      max-width: 400px;
-      margin: 5rem auto;
-      padding: 2rem;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-      text-align: center;
-    }
+    /* Auth */
+    .auth-section{ display:flex; justify-content:center; align-items:center; min-height:80vh; padding:2rem; }
+    .auth-card{ background:var(--card); padding:2rem; border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,.08); width:100%; max-width:400px; text-align:center; }
+    .auth-card h2{ color:var(--primary); margin-bottom:1rem; }
+    .auth-card form{ display:flex; flex-direction:column; gap:1rem; }
+    .auth-card input{ padding:.8rem; border:1px solid #ddd; border-radius:8px; outline:none; }
+    .auth-card input:focus{ border-color:var(--primary); }
+    .auth-card button{ padding:.8rem; border:none; border-radius:8px; background:var(--primary); color:#fff; font-weight:bold; cursor:pointer; transition:.2s; }
+    .auth-card button:hover{ background:#e05555; }
+    .auth-card p{ margin-top:1rem; font-size:.9rem; }
+    .auth-card p a{ color:var(--secondary); }
+    .row{ display:flex; justify-content:space-between; align-items:center; font-size:.9rem; }
+    .error{ color:#d64545; min-height:1.2rem; font-size:.9rem; }
+    .success{ color:#1b8a5a; min-height:1.2rem; font-size:.9rem; }
 
-    .login-container h2 {
-      margin-bottom: 1.5rem;
-      color: #FF6B6B;
-    }
-
-    .login-container input {
-      width: 100%;
-      padding: 0.8rem;
-      margin-bottom: 1rem;
-      border: 1px solid #e5e5e5;
-      border-radius: 8px;
-      font-size: 1rem;
-    }
-
-    .login-container button {
-      width: 100%;
-      padding: 0.8rem;
-      border: none;
-      border-radius: 30px;
-      background: #4ECDC4;
-      color: #fff;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .login-container button:hover { opacity: 0.9; }
-
-    .login-container p {
-      margin-top: 1rem;
-      font-size: 0.9rem;
-      color: #6C757D;
-    }
-
-    .login-container a {
-      color: #FF6B6B;
-      text-decoration: none;
-    }
-
-    @media(max-width:480px){
-      .login-container { margin: 3rem 1rem; padding: 1.5rem; }
+    /* Mobile nav */
+    @media(max-width:768px){
+      nav ul{ flex-direction:column; gap:1rem; display:none; }
+      nav ul.active{ display:flex; }
+      .hamburger{ display:block; }
     }
   </style>
 </head>
 <body>
-
-<!-- Navbar -->
-<header class="navbar">
-  <div id="codekart-logo">
-    <img src="assets/images/codekart-removebg-preview.png" alt="CodeKart Logo">
-    <span>CodeKart</span>
-  </div>
-  <nav>
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="products.html">Explore</a></li>
-      <li><a href="sell.html">Sell</a></li>
-      <li><a href="about.html">About</a></li>
-      <li><a href="contact.html">Contact</a></li>
-      <li><a href="login.html" class="active btn">Login</a></li>
-    </ul>
-  </nav>
-</header>
-
-<!-- Login Form -->
-<div class="login-container">
-  <h2>Login to CodeKart</h2>
-  <form>
-    <input type="email" placeholder="Email" required>
-    <input type="password" placeholder="Password" required>
-    <button type="submit">Login</button>
-  </form>
-  <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
-</div>
-<!-- Footer -->
-<footer class="footer">
-  <div class="footer-container">
-    <div class="footer-logo">
-      <img src="assets/images/codekart-removebg-preview.png" alt="CodeKart Logo">
+  <!-- Navbar -->
+  <header class="navbar">
+    <div id="logo">
+      <img src="assets/images/codekart-removebg-preview.png" alt="CodeKart Logo" />
       <span>CodeKart</span>
     </div>
-    <div class="footer-links">
-      <div class="links-section">
-        <h4>Quick Links</h4>
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="prouduct.html">Explore</a></li>
-          <li><a href="sell.html">Sell</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </div>
-      <div class="links-section">
-        <h4>Resources</h4>
-        <ul>
-          <li><a href="#">Blog</a></li>
-          <li><a href="#">Docs</a></li>
-          <li><a href="#">FAQs</a></li>
-        </ul>
-      </div>
-      <div class="links-section">
-        <h4>Follow Us</h4>
-        <ul class="social-links">
-          <li><a href="#">Twitter</a></li>
-          <li><a href="#">LinkedIn</a></li>
-          <li><a href="#">GitHub</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="newsletter">
-      <h4>Subscribe</h4>
-      <p>Get updates and new templates directly in your inbox.</p>
-      <form>
-        <input type="email" placeholder="Your email">
-        <button type="submit">Subscribe</button>
-      </form>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <p>© 2025 CodeKart. Made with ❤️ in India.</p>
-  </div>
-</footer>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="prouduct.html">Explore</a></li>
+        <li><a href="sell.html">Sell</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="hamburger">&#9776;</div>
+  </header>
 
-<style>
-.footer {
-  background: #1A1A1A;
-  color: #fff;
-  padding: 3rem 2rem 1rem 2rem;
-  font-size: 0.9rem;
-}
-.footer-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-  max-width: 1200px;
-  margin: auto;
-  justify-content: space-between;
-}
-.footer-logo {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: orange;
-}
-.footer-logo img {
-  height: 40px;
-  width: auto;
-}
-.footer-links {
-  display: flex;
-  gap: 3rem;
-}
-.links-section h4 {
-  margin-bottom: 0.8rem;
-  color: #FF6B6B;
-}
-.links-section ul {
-  list-style: none;
-  padding: 0;
-}
-.links-section ul li {
-  margin-bottom: 0.5rem;
-}
-.links-section ul li a {
-  color: #fff;
-  text-decoration: none;
-  transition: 0.3s;
-}
-.links-section ul li a:hover {
-  color: #4ECDC4;
-}
-.social-links li {
-  display: inline-block;
-  margin-right: 0.8rem;
-}
-.newsletter {
-  flex: 1;
-  min-width: 250px;
-}
-.newsletter h4 {
-  color: #FF6B6B;
-  margin-bottom: 0.5rem;
-}
-.newsletter form {
-  display: flex;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
-}
-.newsletter input {
-  flex: 1;
-  padding: 0.6rem;
-  border-radius: 6px;
-  border: none;
-}
-.newsletter button {
-  padding: 0.6rem 1rem;
-  border-radius: 6px;
-  border: none;
-  background: #4ECDC4;
-  color: #fff;
-  font-weight: bold;
-  cursor: pointer;
-}
-.newsletter button:hover { opacity: 0.9; }
-.footer-bottom {
-  text-align: center;
-  margin-top: 2rem;
-  border-top: 1px solid #333;
-  padding-top: 1rem;
-  color: #aaa;
-}
-@media(max-width:768px){
-  .footer-container { flex-direction: column; align-items: center; }
-  .footer-links { flex-direction: column; align-items: center; gap: 1.5rem; }
-  .newsletter form { flex-direction: column; }
-  .newsletter input, .newsletter button { width: 100%; }
-}
-</style>
+  <!-- Login -->
+  <section class="auth-section">
+    <div class="auth-card">
+      <h2>Login</h2>
+      <form id="login-form">
+        <input id="email" type="email" placeholder="Email" required />
+        <input id="password" type="password" placeholder="Password" required />
+        <div class="row">
+          <label><input id="remember" type="checkbox" /> Remember me</label>
+          <a id="forgot" href="#" style="text-decoration:none;">Forgot password?</a>
+        </div>
+        <button type="submit" id="login-btn">Login</button>
+        <div class="error" id="error"></div>
+        <div class="success" id="success"></div>
+      </form>
+      <p>Don’t have an account? <a href="signup.html">Sign Up</a></p>
+    </div>
+  </section>
+
+  <script>
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('nav ul');
+    hamburger.addEventListener('click', () => navLinks.classList.toggle('active'));
+  </script>
+
+  <!-- Firebase + Login logic -->
+  <script type="module">
+    // Firebase SDKs
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-analytics.js";
+    import { 
+      getAuth, setPersistence, browserLocalPersistence, browserSessionPersistence,
+      signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged 
+    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+    // Your Firebase config (same as signup)
+    const firebaseConfig = {
+      apiKey: "AIzaSyDIt727HxMoAk8jMwhLH2-zcLXGmBdj_Ys",
+      authDomain: "codekart-5652e.firebaseapp.com",
+      projectId: "codekart-5652e",
+      storageBucket: "codekart-5652e.firebasestorage.app",
+      messagingSenderId: "430655059434",
+      appId: "1:430655059434:web:290df76af0c7bf8c882e93",
+      measurementId: "G-WHPZ6BWZ4Q"
+    };
+
+    // Init
+    const app = initializeApp(firebaseConfig);
+    try { getAnalytics(app); } catch(e) {}
+    const auth = getAuth(app);
+
+    // Helpers
+    const $ = (id) => document.getElementById(id);
+    const form = $("login-form");
+    const errBox = $("error");
+    const okBox = $("success");
+    const loginBtn = $("login-btn");
+
+    function showError(msg){ errBox.textContent = msg; okBox.textContent = ""; }
+    function showSuccess(msg){ okBox.textContent = msg; errBox.textContent = ""; }
+
+    // Forgot password
+    $("forgot").addEventListener("click", async (e) => {
+      e.preventDefault();
+      const email = $("email").value.trim();
+      if (!email) return showError("Enter your email first to reset password.");
+      try {
+        await sendPasswordResetEmail(auth, email);
+        showSuccess("Password reset email sent.");
+      } catch (err) {
+        let msg = "Couldn't send reset email.";
+        if (err.code === "auth/user-not-found") msg = "No account with that email.";
+        if (err.code === "auth/invalid-email") msg = "Invalid email.";
+        showError(msg);
+        console.error(err);
+      }
+    });
+
+    // Login submit
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      showError(""); showSuccess("");
+      const email = $("email").value.trim();
+      const pass = $("password").value;
+      const remember = $("remember").checked;
+
+      loginBtn.disabled = true;
+
+      try {
+        await setPersistence(auth, remember ? browserLocalPersistence : browserSessionPersistence);
+        const cred = await signInWithEmailAndPassword(auth, email, pass);
+        showSuccess("Logged in! Redirecting…");
+
+        // TODO: change destination if you have a dashboard
+        setTimeout(() => { window.location.href = "index.html"; }, 800);
+      } catch (err) {
+        let msg = "Login failed. Check your details.";
+        if (err.code === "auth/invalid-credential") msg = "Invalid email or password.";
+        if (err.code === "auth/user-disabled") msg = "Account disabled.";
+        if (err.code === "auth/too-many-requests") msg = "Too many attempts. Try later.";
+        showError(msg);
+        console.error(err);
+      } finally {
+        loginBtn.disabled = false;
+      }
+    });
+
+    // Optional: if already logged in, send away from login page
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // Already logged in — skip login page
+        // setTimeout(() => { window.location.href = "index.html"; }, 300);
+      }
+    });
+  </script>
 </body>
 </html>

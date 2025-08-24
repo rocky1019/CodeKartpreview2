@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Profile - CodeKart</title>
+  <link rel="icon" type="image/png" href="assets/images/codekart-removebg-preview.png">
+  <style>
+    :root { --primary:#FF6B6B; --secondary:#4ECDC4; --bg:#f4f4f4; --card:#fff; --text:#111; }
+    *{ box-sizing:border-box; margin:0; padding:0; font-family:'Poppins',sans-serif; }
+    body{ background:var(--bg); color:var(--text); }
+
+    /* Navbar */
+    header.navbar{ display:flex; justify-content:space-between; align-items:center; padding:1rem 2rem; background:var(--card); box-shadow:0 2px 5px rgba(0,0,0,.1); position:sticky; top:0; z-index:10; }
+    #logo{ display:flex; align-items:center; gap:8px; font-size:1.5rem; font-weight:700; color:var(--primary); }
+    #logo img{ height:40px; width:auto; }
+    nav ul{ display:flex; gap:2rem; list-style:none; }
+    nav ul li a{ color:var(--text); text-decoration:none; transition:.2s; }
+    nav ul li a:hover, nav ul li a.active{ color:var(--primary); }
+    .hamburger{ display:none; font-size:2rem; cursor:pointer; }
+    @media(max-width:768px){
+      nav ul{ flex-direction:column; gap:1rem; display:none; }
+      nav ul.active{ display:flex; }
+      .hamburger{ display:block; }
+    }
+
+    /* Page */
+    .wrap{ max-width:1100px; margin:2rem auto; padding:0 1rem; }
+    .heading{ display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-bottom:1.25rem; }
+    .heading h1{ font-size:1.8rem; letter-spacing:-.02em; }
+    .actions{ display:flex; gap:.6rem; }
+    .btn{ padding:.75rem 1rem; border-radius:10px; border:1px solid #e5e7eb; background:var(--card); cursor:pointer; }
+    .btn-primary{ background:var(--primary); color:#fff; border:none; }
+    .btn-secondary{ background:var(--secondary); color:#fff; border:none; }
+    .btn:hover{ filter:brightness(.98); transform:translateY(-1px); transition:.15s; }
+
+    .grid{ display:grid; grid-template-columns: 320px 1fr; gap:1.25rem; align-items:start; }
+    @media(max-width:900px){ .grid{ grid-template-columns:1fr; } }
+
+    .card{ background:var(--card); border:1px solid #eee; border-radius:16px; padding:1.25rem; box-shadow:0 6px 20px rgba(0,0,0,.06); }
+
+    /* Profile card */
+    .avatar{ display:flex; flex-direction:column; align-items:center; gap:1rem; }
+    .avatar .photo{ width:160px; height:160px; border-radius:50%; background:#f1f5f9; border:2px dashed #e2e8f0; display:grid; place-items:center; overflow:hidden; }
+    .avatar img{ width:100%; height:100%; object-fit:cover; }
+    .avatar small{ color:#555; }
+    .file { display:none; }
+    .row{ display:flex; flex-direction:column; gap:.4rem; margin:.5rem 0; }
+    label{ font-size:.9rem; opacity:.9; }
+    input[type="text"], input[type="email"]{ padding:.7rem .9rem; border-radius:10px; border:1px solid #e5e7eb; outline:none; }
+    input:focus{ border-color:var(--primary); }
+
+    /* Info list */
+    .info{ display:grid; gap:1rem; }
+    .info .item{ display:flex; justify-content:space-between; gap:1rem; padding:.9rem 1rem; border:1px solid #f0f0f0; border-radius:12px; }
+    .muted{ color:#666; font-size:.95rem; }
+
+    .status{ margin-top:1rem; min-height:1.25rem; font-size:.95rem; }
+    .status.error{ color:#d64545; }
+    .status.ok{ color:#1b8a5a; }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <header class="navbar">
+    <div id="logo">
+      <img src="assets/images/codekart-removebg-preview.png" alt="CodeKart Logo">
+      <span>CodeKart</span>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="product.html">Explore</a></li>
+        <li class="auth-signed-in"><a href="sell.html">Sell</a></li>
+        <li><a href="about.html">About</a></li>
+        <li class="auth-signed-out"><a href="login.html">Login</a></li>
+        <li class="auth-signed-out"><a href="signup.html">Sign Up</a></li>
+        <li class="auth-signed-in"><a class="active" href="profile.html">Profile</a></li>
+      </ul>
+    </nav>
+    <div class="hamburger">&#9776;</div>
+  </header>
+
+  <main class="wrap">
+    <div class="heading">
+      <h1>Your Profile</h1>
+      <div class="actions">
+        <button id="logout" class="btn">Logout</button>
+        <a href="index.html" class="btn btn-secondary">Home</a>
+      </div>
+    </div>
+
+    <div class="grid">
+ <section class="card">
+  <div class="avatar">
+    <div class="photo" id="photoBox">
+      <img id="avatarImg" alt="Profile photo" src="assets/images/basic-default-pfp-pxi77qv5o0zuz8j3.jpg">
+    </div>
+
+    <div class="row" style="width:100%;">
+      <label for="displayName">Display Name</label>
+      <input id="displayName" type="text" placeholder="Your name">
+    </div>
+    <button id="saveProfile" class="btn btn-primary" style="width:100%;">Save Profile</button>
+
+    <div id="status" class="status"></div>
+  </div>
+</section>
+
+
+      <!-- Right: info -->
+      <section class="card">
+        <div class="info">
+          <div class="item">
+            <div>
+              <div class="muted">Email</div>
+              <div id="emailVal">—</div>
+            </div>
+          </div>
+          <div class="item">
+            <div>
+              <div class="muted">User ID</div>
+              <div id="uidVal">—</div>
+            </div>
+          </div>
+          <div class="item">
+            <div>
+              <div class="muted">Role</div>
+              <div id="roleVal">buyer</div>
+            </div>
+          </div>
+          <div class="item">
+            <div>
+              <div class="muted">Member since</div>
+              <div id="sinceVal">—</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('nav ul');
+    hamburger.addEventListener('click', () => navLinks.classList.toggle('active'));
+  </script>
+
+  <!-- Firebase logic -->
+  <script type="module">
+    // Firebase SDKs
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+    import { 
+      getAuth, onAuthStateChanged, signOut, updateProfile 
+    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+    import { 
+      getFirestore, doc, getDoc, setDoc, serverTimestamp 
+    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+    import {
+      getStorage, ref, uploadBytes, getDownloadURL
+    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-storage.js";
+
+    // Config (same as other pages)
+    const firebaseConfig = {
+      apiKey: "AIzaSyDIt727HxMoAk8jMwhLH2-zcLXGmBdj_Ys",
+      authDomain: "codekart-5652e.firebaseapp.com",
+      projectId: "codekart-5652e",
+      storageBucket: "codekart-5652e.firebasestorage.app",
+      messagingSenderId: "430655059434",
+      appId: "1:430655059434:web:290df76af0c7bf8c882e93",
+      measurementId: "G-WHPZ6BWZ4Q"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+
+    // Elements
+    const statusEl = document.getElementById("status");
+    const displayNameEl = document.getElementById("displayName");
+    const emailVal = document.getElementById("emailVal");
+    const uidVal = document.getElementById("uidVal");
+    const roleVal = document.getElementById("roleVal");
+    const sinceVal = document.getElementById("sinceVal");
+    const avatarImg = document.getElementById("avatarImg");
+    const fileInput = document.getElementById("fileInput");
+    const pickPhoto = document.getElementById("pickPhoto");
+    const saveBtn = document.getElementById("saveProfile");
+    const logoutBtn = document.getElementById("logout");
+
+    function ok(msg){ statusEl.className = "status ok"; statusEl.textContent = msg; }
+    function err(msg){ statusEl.className = "status error"; statusEl.textContent = msg; }
+
+    // Guard page + load data
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.href = "login.html";
+        return;
+      }
+
+      // Navbar toggle for auth state
+      document.querySelectorAll(".auth-signed-in")?.forEach(el => el.style.display = "");
+      document.querySelectorAll(".auth-signed-out")?.forEach(el => el.style.display = "none");
+
+      // Basic info
+      emailVal.textContent = user.email || "—";
+      uidVal.textContent = user.uid.slice(0, 6) + "…" + user.uid.slice(-4);
+      displayNameEl.value = user.displayName || "";
+      
+      // Load Firestore profile
+      try {
+        const uref = doc(db, "users", user.uid);
+        const snap = await getDoc(uref);
+        if (snap.exists()) {
+          const data = snap.data();
+          roleVal.textContent = data.role || "buyer";
+          if (data.createdAt?.toDate) {
+            const d = data.createdAt.toDate();
+            sinceVal.textContent = d.toLocaleDateString();
+          }
+          if (data.photoURL) avatarImg.src = data.photoURL;
+        } else {
+          // Create minimal doc if missing
+          await setDoc(uref, {
+            displayName: user.displayName || "",
+            email: user.email || "",
+            role: "buyer",
+            createdAt: serverTimestamp()
+          }, { merge: true });
+        }
+      } catch(e){
+        console.error(e);
+        err("Couldn't load profile.");
+      }
+    });
+
+
+    // Logout
+    logoutBtn.addEventListener("click", async () => {
+      await signOut(auth);
+      window.location.href = "login.html";
+    });
+  </script>
+</body>
+</html>

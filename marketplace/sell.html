@@ -1,192 +1,361 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sell Your Project - CodeKart</title>
-  <link rel="icon" type="image/png" href="assets/images/codekart-removebg-preview.png">
-  <link rel="stylesheet" href="assets/style/style.css">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sell on CodeKart</title>
+<link rel="icon" type="image/png" href="assets/images/codekart-removebg-preview.png"/>
+<style>
+  :root{--primary:#FF6B6B;--secondary:#4ECDC4;--bg:#f4f4f4;--card:#fff;--text:#111;}
+  *{box-sizing:border-box;margin:0;padding:0;font-family:'Poppins',sans-serif}
+  body{background:var(--bg);color:var(--text)}
+  header.navbar{display:flex;justify-content:space-between;align-items:center;padding:1rem 2rem;background:var(--card);box-shadow:0 2px 5px rgba(0,0,0,.1);position:sticky;top:0;z-index:10}
+  #logo{display:flex;align-items:center;gap:8px;font-size:1.5rem;font-weight:700;color:var(--primary)}
+  #logo img{height:40px;width:auto}
+  nav ul{display:flex;gap:2rem;list-style:none}
+  nav a{text-decoration:none;color:var(--text)}
+  nav a:hover{color:var(--primary)}
+
+  .wrap{max-width:900px;margin:2rem auto;padding:0 1rem}
+  .title{font-size:1.6rem;margin-bottom:1rem}
+  .card{background:var(--card);border:1px solid #eee;border-radius:16px;padding:1rem;box-shadow:0 8px 18px rgba(0,0,0,.06)}
+  form{display:grid;gap:1rem}
+  .row{display:grid;gap:.4rem}
+  label{font-size:.92rem;color:#333}
+  input[type="text"], input[type="url"], textarea{
+    padding:.75rem .9rem;border:1px solid #e5e7eb;border-radius:10px;outline:none;background:#fff
+  }
+  textarea{min-height:120px;resize:vertical}
+  .filebox{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+  .hint{font-size:.85rem;color:#666}
+  .btn{padding:.85rem 1.1rem;border-radius:10px;border:1px solid #e5e7eb;background:var(--card);cursor:pointer}
+  .btn-primary{background:var(--primary);color:#fff;border:none}
+  .btn-secondary{background:var(--secondary);color:#fff;border:none}
+  .actions{display:flex;gap:.6rem;justify-content:flex-end}
+  progress{width:100%; height:12px; appearance:none}
+  progress::-webkit-progress-bar{background:#f1f5f9;border-radius:999px}
+  progress::-webkit-progress-value{background:linear-gradient(90deg,var(--secondary),var(--primary));border-radius:999px}
+  .status{min-height:1.2rem;font-size:.95rem;margin-top:.3rem}
+  .ok{color:#1b8a5a}
+  .err{color:#d64545}
+</style>
 </head>
 <body>
-
   <!-- Navbar -->
   <header class="navbar">
     <div id="logo">
-      <img src="assets/images/codekart-removebg-preview.png" alt="CodeKart Logo">
-      <span>CodeKart</span>
+      <img src="assets/images/codekart-removebg-preview.png" alt="CodeKart Logo"><span>CodeKart</span>
     </div>
     <nav>
       <ul>
         <li><a href="index.html">Home</a></li>
-        <li><a href="prouduct.html">Explore</a></li>
-        <li><a href="sell.html" class="active">Sell</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="contact.html">Contact</a></li>
+        <li><a href="product.html">Explore</a></li>
+        <li><a class="active" href="sell.html">Sell</a></li>
+        <li><a href="profile.html">Profile</a></li>
       </ul>
     </nav>
-    <div class="hamburger">&#9776;</div>
   </header>
 
-  <!-- Hero Section -->
-  <section id="hero">
-    <div class="hero-text">
-      <h1>Sell Your Code & Templates</h1>
-      <p>Share your projects with thousands of developers across India 🇮🇳</p>
-    </div>
-  </section>
+  <main class="wrap">
+    <h1 class="title">List a New Product</h1>
+    <section class="card">
+      <form id="sellForm">
+        <div class="row">
+          <label for="name">Project name *</label>
+          <input id="name" type="text" placeholder="e.g., Modern Portfolio Template" required />
+        </div>
 
-  <!-- Sell Form -->
-  <section id="sell-form-section">
-    <div class="sell-container">
-      <h2>Submit Your Project</h2>
-      <p>Fill in the details below to start selling your template or project.</p>
-      <form id="sell-form">
-        <label for="project-name">Project Name</label>
-        <input type="text" id="project-name" placeholder="Enter your project name" required>
+        <div class="row">
+          <label for="desc">Description *</label>
+          <textarea id="desc" placeholder="Describe features, tech stack, and what buyers get." required></textarea>
+        </div>
 
-        <label for="project-description">Description</label>
-        <textarea id="project-description" rows="5" placeholder="Describe your project" required></textarea>
+        <div class="row">
+          <label for="thumb">Display picture / Thumbnail *</label>
+          <div class="filebox">
+            <input id="thumb" type="file" accept="image/*" required />
+            <span class="hint">PNG/JPG, recommended 1200×750</span>
+          </div>
+        </div>
 
-        <label for="project-image">Upload Image</label>
-        <input type="file" id="project-image" accept="image/*" required>
+        <div class="row">
+          <label for="file">Project file (ZIP) *</label>
+          <div class="filebox">
+            <input id="file" type="file" accept=".zip" required />
+            <span class="hint">Upload a single .zip (code, docs, license)</span>
+          </div>
+        </div>
 
-        <label for="project-link">Demo / Repo Link</label>
-        <input type="url" id="project-link" placeholder="Enter link to project/demo" required>
+        <div class="row">
+          <label for="demo">Demo URL (optional)</label>
+          <input id="demo" type="url" placeholder="https://your-demo-url.com" />
+        </div>
 
-        <button type="submit" class="btn-primary">Submit Project</button>
+        <!-- Progress -->
+        <div class="row">
+          <label>Upload progress</label>
+          <progress id="pThumb" max="100" value="0"></progress>
+          <progress id="pFile"  max="100" value="0"></progress>
+          <div id="status" class="status"></div>
+        </div>
+
+        <div class="actions">
+          <a class="btn" href="dashboard.html">Cancel</a>
+          <button id="submitBtn" class="btn btn-primary" type="submit">Publish</button>
+        </div>
       </form>
-    </div>
-  </section>
+    </section>
+  </main>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-container">
-      <div class="footer-logo">
-        <img src="assets/images/codekart-removebg-preview.png" alt="CodeKart Logo">
-        <span>CodeKart</span>
-      </div>
-      <div class="footer-links">
-        <div class="links-section">
-          <h4>Quick Links</h4>
-          <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="explore.html">Explore</a></li>
-            <li><a href="sell.html">Sell</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="contact.html">Contact</a></li>
-          </ul>
-        </div>
-        <div class="links-section">
-          <h4>Resources</h4>
-          <ul>
-            <li><a href="#">Blog</a></li>
-            <li><a href="#">Docs</a></li>
-            <li><a href="#">FAQs</a></li>
-          </ul>
-        </div>
-        <div class="links-section">
-          <h4>Follow Us</h4>
-          <ul class="social-links">
-            <li><a href="#">Twitter</a></li>
-            <li><a href="#">LinkedIn</a></li>
-            <li><a href="#">GitHub</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="newsletter">
-        <h4>Subscribe</h4>
-        <p>Get updates and new templates in your inbox.</p>
-        <form>
-          <input type="email" placeholder="Your email">
-          <button type="submit">Subscribe</button>
-        </form>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>© 2025 CodeKart. Made with ❤️ in India.</p>
-    </div>
-  </footer>
+  <!-- Firebase logic -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+    import { 
+      getAuth, onAuthStateChanged 
+    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+    import { 
+      getFirestore, collection, addDoc, serverTimestamp 
+    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+    import { 
+      getStorage, ref, uploadBytesResumable, getDownloadURL 
+    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-storage.js";
 
-  <script>
-    const hamburger = document.querySelector('.hamburger');
-    const navLinks = document.querySelector('nav ul');
-    hamburger.addEventListener('click', () => {
-      navLinks.classList.toggle('active');
+    // Your config
+    const firebaseConfig = {
+      apiKey: "AIzaSyDIt727HxMoAk8jMwhLH2-zcLXGmBdj_Ys",
+      authDomain: "codekart-5652e.firebaseapp.com",
+      projectId: "codekart-5652e",
+      storageBucket: "codekart-5652e.firebasestorage.app",
+      messagingSenderId: "430655059434",
+      appId: "1:430655059434:web:290df76af0c7bf8c882e93",
+      measurementId: "G-WHPZ6BWZ4Q"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+
+    // Elements
+    const form = document.getElementById('sellForm');
+    const nameEl = document.getElementById('name');
+    const descEl = document.getElementById('desc');
+    const thumbEl = document.getElementById('thumb');
+    const fileEl = document.getElementById('file');
+    const demoEl = document.getElementById('demo');
+    const pThumb = document.getElementById('pThumb');
+    const pFile  = document.getElementById('pFile');
+    const statusEl = document.getElementById('status');
+    const submitBtn = document.getElementById('submitBtn');
+
+    const ok  = (m)=>{ statusEl.className = "status ok";  statusEl.textContent = m; }
+    const err = (m)=>{ statusEl.className = "status err"; statusEl.textContent = m; }
+
+    let currentUser = null;
+
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        window.location.href = "login.html";
+        return;
+      }
+      currentUser = user;
     });
 
-    // Placeholder form submission
-    const sellForm = document.getElementById('sell-form');
-    sellForm.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      alert("Project submitted! (Functionality will be added with backend)");
-      sellForm.reset();
+      if (!currentUser) return err("Please login to publish.");
+      
+      const name = nameEl.value.trim();
+      const desc = descEl.value.trim();
+      const demoUrl = demoEl.value.trim();
+      const thumbFile = thumbEl.files[0];
+      const projFile  = fileEl.files[0];
+
+      if (!name || !desc || !thumbFile || !projFile) {
+        return err("Please fill all required fields.");
+      }
+      if (projFile && !projFile.name.toLowerCase().endsWith('.zip')) {
+        return err("Project file must be a .zip archive.");
+      }
+
+      submitBtn.disabled = true; ok("Uploading…");
+
+      try {
+        // 1) Upload thumbnail
+        const thumbRef = ref(storage, `productThumbs/${currentUser.uid}/${Date.now()}_${thumbFile.name}`);
+        const upThumb = uploadBytesResumable(thumbRef, thumbFile);
+        const tPromise = new Promise((resolve, reject) => {
+          upThumb.on('state_changed', (s)=>{
+            pThumb.value = Math.round((s.bytesTransferred / s.totalBytes) * 100);
+          }, reject, async ()=> resolve(await getDownloadURL(thumbRef)));
+        });
+
+        // 2) Upload project zip
+        const fileRef = ref(storage, `productFiles/${currentUser.uid}/${Date.now()}_${projFile.name}`);
+        const upFile = uploadBytesResumable(fileRef, projFile);
+        const fPromise = new Promise((resolve, reject) => {
+          upFile.on('state_changed', (s)=>{
+            pFile.value = Math.round((s.bytesTransferred / s.totalBytes) * 100);
+          }, reject, async ()=> resolve(await getDownloadURL(fileRef)));
+        });
+
+        const [thumbUrl, fileUrl] = await Promise.all([tPromise, fPromise]);
+
+        // 3) Create Firestore product doc
+        const docRef = await addDoc(collection(db, "products"), {
+          name,
+          description: desc,
+          thumbUrl,
+          fileUrl,
+          demoUrl: demoUrl || null,
+          sellerId: currentUser.uid,
+          createdAt: serverTimestamp(),
+          status: "active"   // simple flag; you can add moderation later
+        });
+
+        ok("Published! Redirecting to dashboard…");
+        setTimeout(()=> window.location.href = "dashboard.html", 800);
+
+      } catch (e) {
+        console.error(e);
+        err("Upload failed. Check your internet or try again.");
+      } finally {
+        submitBtn.disabled = false;
+      }
     });
   </script>
   <style>
-    /* ========== SELL PAGE ========== */
-#sell-form-section {
-  padding: 3rem 1rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  gap: 2rem;
+    :root {
+  --primary:#FF6B6B;
+  --secondary:#4ECDC4;
+  --bg:#f4f4f4;
+  --card:#fff;
+  --text:#111;
 }
 
-.sell-container {
-  background: var(--card);
-  padding: 2rem;
-  border-radius: 12px;
-  max-width: 600px;
-  width: 100%;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+* {
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:'Poppins',sans-serif;
 }
 
-.sell-container h2 {
-  color: var(--primary);
-  margin-bottom: 1rem;
-  text-align: center;
+body {
+  background:var(--bg);
+  color:var(--text);
 }
 
-.sell-container p {
-  color: #555;
-  margin-bottom: 1.5rem;
-  text-align: center;
+/* Navbar */
+header.navbar {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:1rem 2rem;
+  background:var(--card);
+  box-shadow:0 2px 5px rgba(0,0,0,.1);
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+#logo {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:1.5rem;
+  font-weight:700;
+  color:var(--primary);
+}
+#logo img {height:40px;width:auto;}
+nav ul {display:flex;gap:2rem;list-style:none;}
+nav a {text-decoration:none;color:var(--text);}
+nav a:hover {color:var(--primary);}
+
+/* Main wrapper */
+.wrap {
+  max-width:900px;
+  margin:2rem auto;
+  padding:0 1rem;
 }
 
-.sell-container form label {
-  display: block;
-  margin-bottom: 0.3rem;
-  font-weight: 500;
-  color: var(--primary);
+/* Section heading */
+.title {
+  font-size:2rem;
+  font-weight:700;
+  text-align:center;
+  margin-bottom:1.5rem;
+  background:linear-gradient(135deg,var(--primary),var(--secondary));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
 }
 
-.sell-container form input,
-.sell-container form textarea {
-  width: 100%;
-  padding: 0.8rem;
-  margin-bottom: 1rem;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+/* Card */
+.card {
+  background:var(--card);
+  border:none;
+  border-radius:20px;
+  padding:2rem;
+  box-shadow:0 10px 25px rgba(0,0,0,.08);
 }
 
-.sell-container form button.btn-primary {
-  width: 100%;
-  padding: 0.8rem;
-  background: var(--primary);
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  font-weight: 500;
-  transition: 0.2s;
+/* Form layout */
+form {display:grid;gap:1.2rem;}
+.row {display:grid;gap:.5rem;}
+label {font-size:.95rem;font-weight:600;color:#333;}
+
+input[type="text"], input[type="url"], textarea {
+  padding:.9rem 1rem;
+  border:1px solid #e5e7eb;
+  border-radius:12px;
+  outline:none;
+  background:#fff;
+  transition:border .2s, box-shadow .2s;
+}
+input:focus, textarea:focus {
+  border-color:var(--primary);
+  box-shadow:0 0 0 3px rgba(255,107,107,.2);
+}
+textarea {min-height:140px;resize:vertical;}
+
+/* File input */
+.filebox {display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;}
+.hint {font-size:.82rem;color:#666;}
+
+/* Buttons */
+.actions {display:flex;gap:.8rem;justify-content:flex-end;margin-top:1rem;}
+.btn {
+  padding:.9rem 1.2rem;
+  border-radius:12px;
+  border:1px solid #e5e7eb;
+  background:var(--card);
+  cursor:pointer;
+  font-weight:600;
+  transition:all .2s;
+}
+.btn:hover {transform:translateY(-2px);}
+
+.btn-primary {background:var(--primary);color:#fff;border:none;}
+.btn-primary:hover {filter:brightness(.95);}
+.btn-secondary {background:var(--secondary);color:#fff;border:none;}
+.btn-secondary:hover {filter:brightness(.95);}
+
+/* Progress */
+progress {
+  width:100%;
+  height:12px;
+  appearance:none;
+  border-radius:999px;
+  overflow:hidden;
+}
+progress::-webkit-progress-bar {background:#f1f5f9;}
+progress::-webkit-progress-value {
+  background:linear-gradient(90deg,var(--secondary),var(--primary));
 }
 
-.sell-container form button.btn-primary:hover {
-  background: #e05555;
-  transform: scale(1.03);
-}
+/* Status message */
+.status {min-height:1.2rem;font-size:.95rem;margin-top:.3rem;}
+.ok {color:#1b8a5a;}
+.err {color:#d64545;}
 
   </style>
 </body>
 </html>
-

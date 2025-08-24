@@ -28,17 +28,98 @@
     <div class="hamburger">&#9776;</div>
   </header>
 
-  <!-- Hero -->
-  <section id="hero">
-    <div class="hero-text">
-      <h1>India’s Developer Marketplace</h1>
-      <p>Buy & sell code projects, scripts, templates — with Indian payment support 🇮🇳</p>
-      <div class="hero-buttons">
-        <a href="login.html" class="btn-primary">Login</a>
-        <a href="signup.html" class="btn-secondary">Sign Up</a>
-      </div>
+<!-- Hero -->
+<section id="hero">
+  <div class="hero-text">
+    <h1>India’s Developer Marketplace</h1>
+    <p>Buy & sell code projects, scripts, templates — with Indian payment support 🇮🇳</p>
+    
+    <!-- Signed OUT state -->
+    <div class="hero-buttons auth-signed-out">
+      <a href="login.html" class="btn-primary">Login</a>
+      <a href="signup.html" class="btn-secondary">Sign Up</a>
     </div>
-  </section>
+
+    <!-- Signed IN state -->
+    <div class="hero-buttons auth-signed-in" style="display:none">
+      <span id="welcome-name" style="margin-right:10px; font-weight:bold;"></span>
+      <a href="dashboard.html" class="btn-primary">Dashboard</a>
+      <a href="profile.html" class="btn-secondary">Profile</a>
+    </div>
+  </div>
+</section>
+<!-- Founder Story -->
+<!-- Founder Story -->
+<section id="founder-story">
+  <div class="fs-wrap">
+    <div class="fs-badge">My Story</div>
+    <h2>Why I’m building CodeKart</h2>
+    <p class="fs-intro">
+      Hey, I’m Atharva — a student + developer from India. I’ve spent the last few years
+      building small apps, learning in public, and dreaming of a place where creators like us
+      can sell code, templates, and tools <em>without</em> fighting paywalls or USD pricing.
+    </p>
+
+    <div class="fs-cards">
+      <article class="fs-card">
+        <h3>Where it started</h3>
+        <p>
+          I began with simple projects on a laptop that could barely handle VS Code. No fancy gear,
+          just curiosity and a lot of late nights. Every download, every kind comment kept me going.
+        </p>
+      </article>
+
+      <article class="fs-card">
+        <h3>The dream</h3>
+        <p>
+          Build India’s most helpful marketplace for devs and designers — a place where a
+          weekend project can turn into someone’s first online income. If CodeKart works,
+          it won’t just be my win. It’ll be ours.
+        </p>
+      </article>
+
+      <article class="fs-card">
+        <h3>Why your support matters</h3>
+        <p>
+          Every visit, share, and purchase keeps this project alive. I’m genuinely grateful
+          you’re here. If you believe in this, consider grabbing a template, listing one, or
+          just telling a friend. Thank you. ❤️
+        </p>
+      </article>
+    </div>
+
+    <div class="fs-cta">
+      <a href="product.html" class="btn-primary">Browse Templates</a>
+      <a href="sell.html" class="btn-secondary">List Your Product</a>
+    </div>
+
+    <p class="fs-note">– Atharva, Founder of CodeKart</p>
+  </div>
+</section>
+
+
+  <!-- ========== Why Choose CodeKart / Features ========== -->
+<section id="features-home">
+  <h2>Why Choose CodeKart?</h2>
+  <div class="features-home-grid">
+    <div class="feature-home-card">
+      <h3>🇮🇳 Indian Payments</h3>
+      <p>Receive payments via UPI, Paytm, PhonePe or any UPI app</p>
+    </div>
+    <div class="feature-home-card">
+      <h3>🚀 Fast Uploads</h3>
+      <p>Upload and sell your projects in minutes with zero hassle.</p>
+    </div>
+    <div class="feature-home-card">
+      <h3>💻 Dev-Centric</h3>
+      <p>Built for Indian developers, by Indian developers.</p>
+    </div>
+    <div class="feature-home-card">
+      <h3>📂 Ready-to-Use</h3>
+      <p>Buy and sell complete templates, apps, and scripts instantly.</p>
+    </div>
+  </div>
+</section>
 <!-- FAQ Section -->
 <section id="faq-section">
   <h2>Frequently Asked Questions</h2>
@@ -80,28 +161,7 @@
   </div>
 </section>
 
-<!-- ========== Why Choose CodeKart / Features ========== -->
-<section id="features-home">
-  <h2>Why Choose CodeKart?</h2>
-  <div class="features-home-grid">
-    <div class="feature-home-card">
-      <h3>🇮🇳 Indian Payments</h3>
-      <p>Receive payments via UPI, Paytm, PhonePe or bank transfer directly.</p>
-    </div>
-    <div class="feature-home-card">
-      <h3>🚀 Fast Uploads</h3>
-      <p>Upload and sell your projects in minutes with zero hassle.</p>
-    </div>
-    <div class="feature-home-card">
-      <h3>💻 Dev-Centric</h3>
-      <p>Built for Indian developers, by Indian developers.</p>
-    </div>
-    <div class="feature-home-card">
-      <h3>📂 Ready-to-Use</h3>
-      <p>Buy and sell complete templates, apps, and scripts instantly.</p>
-    </div>
-  </div>
-</section>
+
 
 <!-- ========== Community / Social Section ========== -->
 <section id="community">
@@ -158,7 +218,7 @@
           <h4>Quick Links</h4>
           <ul>
             <li><a href="index.html">Home</a></li>
-            <li><a href="explore.html">Explore</a></li>
+            <li><a href="prouduct.html">Explore</a></li>
             <li><a href="sell.html">Sell</a></li>
             <li><a href="about.html">About</a></li>
             <li><a href="contact.html">Contact</a></li>
@@ -202,5 +262,41 @@
       navLinks.classList.toggle('active');
     });
   </script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDIt727HxMoAk8jMwhLH2-zcLXGmBdj_Ys",
+    authDomain: "codekart-5652e.firebaseapp.com",
+    projectId: "codekart-5652e",
+    storageBucket: "codekart-5652e.firebasestorage.app",
+    messagingSenderId: "430655059434",
+    appId: "1:430655059434:web:290df76af0c7bf8c882e93",
+    measurementId: "G-WHPZ6BWZ4Q"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  const showSignedIn = (user) => {
+    document.querySelector(".auth-signed-out").style.display = "none";
+    document.querySelector(".auth-signed-in").style.display = "flex";
+    const name = user.displayName || user.email;
+    document.getElementById("welcome-name").textContent = `Hi, ${name}`;
+  };
+
+  const showSignedOut = () => {
+    document.querySelector(".auth-signed-out").style.display = "flex";
+    document.querySelector(".auth-signed-in").style.display = "none";
+  };
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) showSignedIn(user);
+    else showSignedOut();
+  });
+</script>
+
+
 </body>
 </html>

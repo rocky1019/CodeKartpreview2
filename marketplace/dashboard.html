@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Dashboard - CodeKart</title>
+<link rel="icon" type="image/png" href="assets/images/codekart-removebg-preview.png"/>
+<style>
+  :root{--primary:#FF6B6B;--secondary:#4ECDC4;--bg:#f4f4f4;--card:#fff;--text:#111;}
+  *{box-sizing:border-box;margin:0;padding:0;font-family:'Poppins',sans-serif}
+  body{background:var(--bg);color:var(--text)}
+  header.navbar{display:flex;justify-content:space-between;align-items:center;padding:1rem 2rem;background:var(--card);box-shadow:0 2px 5px rgba(0,0,0,.1);position:sticky;top:0;z-index:10}
+  #logo{display:flex;align-items:center;gap:8px;font-size:1.5rem;font-weight:700;color:var(--primary)}
+  #logo img{height:40px;width:auto}
+  nav ul{display:flex;gap:2rem;list-style:none}
+  nav a{text-decoration:none;color:var(--text)}
+  nav a:hover{color:var(--primary)}
+  .wrap{max-width:1100px;margin:2rem auto;padding:0 1rem}
+  .hello{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
+  .hello h1{font-size:1.6rem}
+  .quick{display:flex;gap:.6rem;flex-wrap:wrap}
+  .btn{padding:.7rem 1rem;border-radius:10px;border:1px solid #e5e7eb;background:var(--card);cursor:pointer;text-decoration:none;color:var(--text)}
+  .btn-primary{background:var(--primary);color:#fff;border:none}
+  .btn-secondary{background:var(--secondary);color:#fff;border:none}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem}
+  @media(max-width:900px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid #eee;border-radius:14px;padding:1rem;box-shadow:0 6px 18px rgba(0,0,0,.06)}
+  .card h3{margin-bottom:.6rem;font-size:1.05rem}
+  .list{display:grid;gap:.6rem}
+  .item{display:flex;justify-content:space-between;align-items:center;border:1px solid #f1f1f1;padding:.7rem .9rem;border-radius:10px}
+  .muted{color:#666;font-size:.95rem}
+  .badge{padding:.25rem .55rem;border-radius:999px;background:#eef;border:1px solid #dde;font-size:.8rem}
+  .hidden{display:none!important}
+</style>
+</head>
+<body>
+  <!-- Navbar -->
+  <header class="navbar">
+    <div id="logo">
+      <img src="assets/images/codekart-removebg-preview.png" alt="CodeKart Logo"><span>CodeKart</span>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="product.html">Explore</a></li>
+        <li class="only-signed-in"><a href="sell.html">Sell</a></li>
+        <li><a href="profile.html">Profile</a></li>
+        <li><a id="logout" href="#">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <section class="hello">
+      <h1 id="greet">Welcome 👋</h1>
+      <div class="quick">
+        <a href="profile.html" class="btn">Profile</a>
+        <a href="product.html" class="btn">Explore</a>
+        <a id="quick-sell" href="sell.html" class="btn btn-secondary hidden">List a Product</a>
+      </div>
+    </section>
+
+    <section class="grid">
+      <!-- Left column -->
+      <div class="card">
+        <h3>Account</h3>
+        <div class="list">
+          <div class="item"><span class="muted">Email</span><span id="email">—</span></div>
+          <div class="item"><span class="muted">Role</span><span id="role" class="badge">buyer</span></div>
+          <div class="item"><span class="muted">Member since</span><span id="since">—</span></div>
+          <div class="item"><span class="muted">Email verified</span><span id="verified" class="badge">no</span></div>
+        </div>
+      </div>
+
+      <!-- Right column (changes by role) -->
+      <div class="card" id="sellerBox" class="hidden">
+        <h3>My Listings (latest)</h3>
+        <div id="sellerList" class="list"><div class="muted">No listings yet.</div></div>
+        <a href="sell.html" class="btn btn-primary" style="margin-top:.8rem;">Add new listing</a>
+      </div>
+
+<div class="card hidden" id="buyerBox">
+  <h3>My Purchases (latest)</h3>
+  <div id="buyerList" class="list">
+    <div class="muted">No purchases yet.</div>
+  </div>
+</div>
+
+<div style="margin-top:1rem;">
+  <a href="prouduct.html" class="btn btn-primary">Browse templates</a>
+</div>
+
+    </section>
+  </main>
+
+  <!-- Firebase -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut, sendEmailVerification } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc, collection, query, where, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDIt727HxMoAk8jMwhLH2-zcLXGmBdj_Ys",
+      authDomain: "codekart-5652e.firebaseapp.com",
+      projectId: "codekart-5652e",
+      storageBucket: "codekart-5652e.firebasestorage.app",
+      messagingSenderId: "430655059434",
+      appId: "1:430655059434:web:290df76af0c7bf8c882e93",
+      measurementId: "G-WHPZ6BWZ4Q"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const $ = (id) => document.getElementById(id);
+    const greet = $("greet"), email = $("email"), role = $("role"), since = $("since"), verified = $("verified");
+    const quickSell = $("quick-sell"), sellerBox = $("sellerBox"), buyerBox = $("buyerBox");
+    const sellerList = $("sellerList"), buyerList = $("buyerList");
+
+    function show(el){ el.classList.remove("hidden"); }
+    function hide(el){ el.classList.add("hidden"); }
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) { window.location.href = "login.html"; return; }
+
+      greet.textContent = `Welcome, ${user.displayName || user.email}!`;
+      email.textContent = user.email || "—";
+      verified.textContent = user.emailVerified ? "yes" : "no";
+
+      // Load user doc
+      let userRole = "buyer";
+      try {
+        const uref = doc(db, "users", user.uid);
+        const snap = await getDoc(uref);
+        if (snap.exists()) {
+          const data = snap.data();
+          userRole = data.role || "buyer";
+          role.textContent = userRole;
+          if (data.createdAt?.toDate) since.textContent = data.createdAt.toDate().toLocaleDateString();
+        }
+      } catch (e) { console.error(e); }
+
+      // Role-based UI
+      if (userRole === "seller") {
+        show(quickSell); show(sellerBox); hide(buyerBox);
+        // Latest 3 listings (if your products collection uses sellerId)
+        try {
+          const q = query(
+            collection(db, "products"),
+            where("sellerId", "==", user.uid),
+            orderBy("createdAt", "desc"),
+            limit(3)
+          );
+          const res = await getDocs(q);
+          if (!res.empty) {
+            sellerList.innerHTML = "";
+            res.forEach(docu => {
+              const p = docu.data();
+              const div = document.createElement("div");
+              div.className = "item";
+              div.innerHTML = `<span>${p.name || "Untitled"}</span><span class="muted">₹${p.price || 0}</span>`;
+              sellerList.appendChild(div);
+            });
+          }
+        } catch (e) { console.error(e); }
+      } else {
+        hide(quickSell); hide(sellerBox); show(buyerBox);
+        // Latest 3 purchases (adjust to your schema later)
+        // Example query placeholder if you store orders under 'orders'
+        // const q = query(collection(db, "orders"), where("buyerId","==",user.uid), orderBy("createdAt","desc"), limit(3));
+        // ...
+      }
+    });
+
+    // Logout
+    document.getElementById("logout").addEventListener("click", async (e) => {
+      e.preventDefault();
+      await signOut(auth);
+      window.location.href = "login.html";
+    });
+  </script>
+</body>
+</html>
