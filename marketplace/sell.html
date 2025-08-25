@@ -17,27 +17,37 @@
   nav a:hover{color:var(--primary)}
 
   .wrap{max-width:900px;margin:2rem auto;padding:0 1rem}
-  .title{font-size:1.6rem;margin-bottom:1rem}
-  .card{background:var(--card);border:1px solid #eee;border-radius:16px;padding:1rem;box-shadow:0 8px 18px rgba(0,0,0,.06)}
-  form{display:grid;gap:1rem}
-  .row{display:grid;gap:.4rem}
-  label{font-size:.92rem;color:#333}
-  input[type="text"], input[type="url"], textarea{
-    padding:.75rem .9rem;border:1px solid #e5e7eb;border-radius:10px;outline:none;background:#fff
-  }
-  textarea{min-height:120px;resize:vertical}
+  .title{font-size:2rem;font-weight:700;text-align:center;margin-bottom:1.5rem;
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .card{background:var(--card);border:none;border-radius:20px;padding:2rem;box-shadow:0 10px 25px rgba(0,0,0,.08)}
+  form{display:grid;gap:1.2rem}
+  .row{display:grid;gap:.5rem}
+  label{font-size:.95rem;font-weight:600;color:#333}
+
+  input[type="text"],input[type="url"],textarea{
+    padding:.9rem 1rem;border:1px solid #e5e7eb;border-radius:12px;outline:none;background:#fff;transition:border .2s,box-shadow .2s}
+  input:focus,textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(255,107,107,.2)}
+  textarea{min-height:140px;resize:vertical}
+
   .filebox{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
-  .hint{font-size:.85rem;color:#666}
-  .btn{padding:.85rem 1.1rem;border-radius:10px;border:1px solid #e5e7eb;background:var(--card);cursor:pointer}
+  .hint{font-size:.82rem;color:#666}
+
+  .actions{display:flex;gap:.8rem;justify-content:flex-end;margin-top:1rem}
+  .btn{padding:.9rem 1.2rem;border-radius:12px;border:1px solid #e5e7eb;background:var(--card);cursor:pointer;font-weight:600;transition:all .2s}
+  .btn:hover{transform:translateY(-2px)}
   .btn-primary{background:var(--primary);color:#fff;border:none}
+  .btn-primary:hover{filter:brightness(.95)}
   .btn-secondary{background:var(--secondary);color:#fff;border:none}
-  .actions{display:flex;gap:.6rem;justify-content:flex-end}
-  progress{width:100%; height:12px; appearance:none}
-  progress::-webkit-progress-bar{background:#f1f5f9;border-radius:999px}
-  progress::-webkit-progress-value{background:linear-gradient(90deg,var(--secondary),var(--primary));border-radius:999px}
+  .btn-secondary:hover{filter:brightness(.95)}
+
+  progress{width:100%;height:12px;appearance:none;border-radius:999px;overflow:hidden}
+  progress::-webkit-progress-bar{background:#f1f5f9}
+  progress::-webkit-progress-value{background:linear-gradient(90deg,var(--secondary),var(--primary))}
   .status{min-height:1.2rem;font-size:.95rem;margin-top:.3rem}
-  .ok{color:#1b8a5a}
-  .err{color:#d64545}
+  .ok{color:#1b8a5a}.err{color:#d64545}
+
+  .thumb-preview{width:100%;max-width:520px;border-radius:12px;border:1px solid #eee;box-shadow:0 6px 16px rgba(0,0,0,.06)}
 </style>
 </head>
 <body>
@@ -49,7 +59,7 @@
     <nav>
       <ul>
         <li><a href="index.html">Home</a></li>
-        <li><a href="product.html">Explore</a></li>
+        <li><a href="prouduct.html">Explore</a></li>
         <li><a class="active" href="sell.html">Sell</a></li>
         <li><a href="profile.html">Profile</a></li>
       </ul>
@@ -70,28 +80,55 @@
           <textarea id="desc" placeholder="Describe features, tech stack, and what buyers get." required></textarea>
         </div>
 
+        <!-- THUMBNAIL upload to Supabase -->
         <div class="row">
-          <label for="thumb">Display picture / Thumbnail *</label>
+          <label>Display picture / Thumbnail *</label>
           <div class="filebox">
-            <input id="thumb" type="file" accept="image/*" required />
-            <span class="hint">PNG/JPG, recommended 1200×750</span>
+            <input id="thumbFile" type="file" accept="image/*" />
+            <button id="thumbUploadBtn" type="button" class="btn btn-secondary">Upload image</button>
+            <span class="hint">PNG/JPG/WebP · ~1200×750 · ≤ 5MB</span>
           </div>
+          <input id="thumbUrl" type="url" placeholder="https://.../thumbnail.jpg" required />
+          <img id="thumbPreview" class="thumb-preview" alt="" style="display:none;margin-top:.5rem"/>
         </div>
 
+        <!-- ZIP upload to Supabase -->
         <div class="row">
-          <label for="file">Project file (ZIP) *</label>
+          <label>Project file (ZIP) *</label>
           <div class="filebox">
-            <input id="file" type="file" accept=".zip" required />
-            <span class="hint">Upload a single .zip (code, docs, license)</span>
+            <input id="fileZip" type="file" accept=".zip" />
+            <button id="fileUploadBtn" type="button" class="btn btn-secondary">Upload ZIP</button>
+            <span class="hint">.zip only · ≤ 50MB (tune later)</span>
           </div>
+          <input id="fileUrl" type="url" placeholder="https://.../project.zip" required readonly />
         </div>
+<div class="row">
+  <label for="price">Price (₹)</label>
+  <input id="price" type="number" min="0" placeholder="e.g. 499" />
+</div>
+
+<div class="row">
+  <label for="category">Category</label>
+  <select id="category">
+    <option value="">Select category</option>
+    <option value="web">Web Template</option>
+    <option value="mobile">Mobile Template</option>
+    <option value="design">Design Asset</option>
+    <option value="script">Script/Code</option>
+  </select>
+</div>
+
+<div class="row">
+  <label for="tags">Tags (comma separated)</label>
+  <input id="tags" type="text" placeholder="e.g. react, ui, dashboard" />
+</div>
 
         <div class="row">
           <label for="demo">Demo URL (optional)</label>
           <input id="demo" type="url" placeholder="https://your-demo-url.com" />
         </div>
 
-        <!-- Progress -->
+        <!-- Progress bars -->
         <div class="row">
           <label>Upload progress</label>
           <progress id="pThumb" max="100" value="0"></progress>
@@ -107,255 +144,181 @@
     </section>
   </main>
 
-  <!-- Firebase logic -->
+  <!-- Firebase (Auth + Firestore) + Supabase (Storage) -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-    import { 
-      getAuth, onAuthStateChanged 
-    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-    import { 
-      getFirestore, collection, addDoc, serverTimestamp 
-    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-    import { 
-      getStorage, ref, uploadBytesResumable, getDownloadURL 
-    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-storage.js";
+  /* ---------- Firebase ---------- */
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+  import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
-    // Your config
-    const firebaseConfig = {
-      apiKey: "AIzaSyDIt727HxMoAk8jMwhLH2-zcLXGmBdj_Ys",
-      authDomain: "codekart-5652e.firebaseapp.com",
-      projectId: "codekart-5652e",
-      storageBucket: "codekart-5652e.firebasestorage.app",
-      messagingSenderId: "430655059434",
-      appId: "1:430655059434:web:290df76af0c7bf8c882e93",
-      measurementId: "G-WHPZ6BWZ4Q"
+  const firebaseConfig = {
+    apiKey: "AIzaSyDIt727HxMoAk8jMwhLH2-zcLXGmBdj_Ys",
+    authDomain: "codekart-5652e.firebaseapp.com",
+    projectId: "codekart-5652e",
+    storageBucket: "codekart-5652e.firebasestorage.app",
+    messagingSenderId: "430655059434",
+    appId: "1:430655059434:web:290df76af0c7bf8c882e93",
+    measurementId: "G-WHPZ6BWZ4Q"
+  };
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  /* ---------- Supabase (Storage) ---------- */
+  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+  const SUPABASE_URL  = "https://ixgiafhbfjpbqclwefgf.supabase.co";
+  const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml4Z2lhZmhiZmpwYnFjbHdlZmdmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYwNjYxMDUsImV4cCI6MjA3MTY0MjEwNX0.qmlHYOcbWSkYMNNw_s8ymTGIt1e4xLAK-cXXAmALyuE";
+  const BUCKET = "codekart";
+  const supa = createClient(SUPABASE_URL, SUPABASE_ANON);
+
+  // Elements
+  const form = document.getElementById('sellForm');
+  const nameEl = document.getElementById('name');
+  const descEl = document.getElementById('desc');
+  const thumbFileEl = document.getElementById('thumbFile');
+  const thumbBtn = document.getElementById('thumbUploadBtn');
+  const thumbUrlEl = document.getElementById('thumbUrl');
+  const thumbPreview = document.getElementById('thumbPreview');
+  const fileZipEl = document.getElementById('fileZip');
+  const fileBtn = document.getElementById('fileUploadBtn');
+  const fileUrlEl = document.getElementById('fileUrl');
+  const demoEl = document.getElementById('demo');
+  const pThumb = document.getElementById('pThumb');
+  const pFile = document.getElementById('pFile');
+  const statusEl = document.getElementById('status');
+  const submitBtn = document.getElementById('submitBtn');
+  const priceEl = document.getElementById('price');
+const categoryEl = document.getElementById('category');
+const tagsEl = document.getElementById('tags');
+
+
+  const ok  = (m)=>{ statusEl.className = "status ok";  statusEl.textContent = m; };
+  const err = (m)=>{ statusEl.className = "status err"; statusEl.textContent = m; };
+
+  let currentUser = null;
+  // Disable form until we know auth state
+  submitBtn.disabled = true;
+
+  onAuthStateChanged(auth, (user) => {
+    currentUser = user || null;
+    console.log("auth uid =", currentUser?.uid);
+    if (!currentUser) {
+      // not signed in → bounce to login
+      window.location.href = "login.html";
+      return;
+    }
+    submitBtn.disabled = false; // allow submit now
+  });
+
+  // small util for smooth progress
+  function smoothProgress(el, target){
+    const t = Math.max(0, Math.min(100, target));
+    if (t <= el.value) return;
+    const step = () => {
+      el.value += Math.max(1, Math.round((t - el.value) / 5));
+      if (el.value < t) requestAnimationFrame(step);
     };
+    requestAnimationFrame(step);
+  }
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-    const storage = getStorage(app);
+  /* ---- Thumbnail upload to Supabase ---- */
+  thumbBtn.addEventListener('click', () => thumbFileEl.click());
+  thumbFileEl.addEventListener('change', async () => {
+    const f = thumbFileEl.files?.[0];
+    if (!f) return;
+    if (!/^image\//.test(f.type)) return err("Please select an image (png/jpg/webp).");
+    if (f.size > 5 * 1024 * 1024) return err("Image too large. Max 5 MB.");
+    const fr = new FileReader();
+    fr.onload = () => { thumbPreview.src = fr.result; thumbPreview.style.display = 'block'; };
+    fr.readAsDataURL(f);
 
-    // Elements
-    const form = document.getElementById('sellForm');
-    const nameEl = document.getElementById('name');
-    const descEl = document.getElementById('desc');
-    const thumbEl = document.getElementById('thumb');
-    const fileEl = document.getElementById('file');
-    const demoEl = document.getElementById('demo');
-    const pThumb = document.getElementById('pThumb');
-    const pFile  = document.getElementById('pFile');
-    const statusEl = document.getElementById('status');
-    const submitBtn = document.getElementById('submitBtn');
+    pThumb.value = 0; ok("Uploading image…"); smoothProgress(pThumb, 35);
 
-    const ok  = (m)=>{ statusEl.className = "status ok";  statusEl.textContent = m; }
-    const err = (m)=>{ statusEl.className = "status err"; statusEl.textContent = m; }
+    try {
+      const uid = currentUser?.uid || "anon";
+      const safe = f.name.replace(/[^\w.\-]/g, "_");
+      const path = `thumbs/${uid}/${Date.now()}_${safe}`;
+      const { error } = await supa.storage.from(BUCKET).upload(path, f, { cacheControl: '3600', upsert:false, contentType:f.type });
+      if (error) { console.error(error); return err("Image upload failed."); }
+      const { data: pub } = supa.storage.from(BUCKET).getPublicUrl(path);
+      if (!pub?.publicUrl) return err("Could not get image URL.");
+      thumbUrlEl.value = pub.publicUrl;
+      smoothProgress(pThumb, 100);
+      ok("Image uploaded ✔");
+      console.log("thumbUrl ->", pub.publicUrl);
+    } catch (e) { console.error(e); err("Image upload failed."); }
+  });
 
-    let currentUser = null;
+  /* ---- ZIP upload to Supabase ---- */
+  fileBtn.addEventListener('click', () => fileZipEl.click());
+  fileZipEl.addEventListener('change', async () => {
+    const f = fileZipEl.files?.[0];
+    if (!f) return;
+    if (!f.name.toLowerCase().endsWith(".zip")) return err("Only .zip files allowed.");
+    if (f.size > 50 * 1024 * 1024) return err("File too large. Max 50 MB.");
 
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        window.location.href = "login.html";
-        return;
-      }
-      currentUser = user;
-    });
+    pFile.value = 0; ok("Uploading project…"); smoothProgress(pFile, 40);
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      if (!currentUser) return err("Please login to publish.");
-      
-      const name = nameEl.value.trim();
-      const desc = descEl.value.trim();
-      const demoUrl = demoEl.value.trim();
-      const thumbFile = thumbEl.files[0];
-      const projFile  = fileEl.files[0];
+    try {
+      const uid = currentUser?.uid || "anon";
+      const safe = f.name.replace(/[^\w.\-]/g, "_");
+      const path = `zips/${uid}/${Date.now()}_${safe}`;
+      const { error } = await supa.storage.from(BUCKET).upload(path, f, { cacheControl:'3600', upsert:false, contentType: f.type || 'application/zip' });
+      if (error) { console.error(error); return err("ZIP upload failed."); }
+      const { data: pub } = supa.storage.from(BUCKET).getPublicUrl(path);
+      if (!pub?.publicUrl) return err("Could not get ZIP URL.");
+      fileUrlEl.value = pub.publicUrl;
+      smoothProgress(pFile, 100);
+      ok("ZIP uploaded ✔");
+      console.log("fileUrl  ->", pub.publicUrl);
+    } catch (e) { console.error(e); err("ZIP upload failed."); }
+  });
 
-      if (!name || !desc || !thumbFile || !projFile) {
-        return err("Please fill all required fields.");
-      }
-      if (projFile && !projFile.name.toLowerCase().endsWith('.zip')) {
-        return err("Project file must be a .zip archive.");
-      }
+  /* ---- Publish to Firestore ---- */
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!currentUser) return err("Please login to publish.");
 
-      submitBtn.disabled = true; ok("Uploading…");
+    const name = nameEl.value.trim();
+    const desc = descEl.value.trim();
+    const thumbUrl = thumbUrlEl.value.trim();
+    const fileUrl  = fileUrlEl.value.trim();
+    const demoUrl  = (demoEl.value.trim() || null);
 
-      try {
-        // 1) Upload thumbnail
-        const thumbRef = ref(storage, `productThumbs/${currentUser.uid}/${Date.now()}_${thumbFile.name}`);
-        const upThumb = uploadBytesResumable(thumbRef, thumbFile);
-        const tPromise = new Promise((resolve, reject) => {
-          upThumb.on('state_changed', (s)=>{
-            pThumb.value = Math.round((s.bytesTransferred / s.totalBytes) * 100);
-          }, reject, async ()=> resolve(await getDownloadURL(thumbRef)));
-        });
+    if (!name || !desc) return err("Please fill name and description.");
+    if (!thumbUrl) return err("Please upload a thumbnail first.");
+    if (!fileUrl)  return err("Please upload the ZIP first.");
+    if (!/\.zip(\?|$)/i.test(fileUrl)) return err("ZIP URL must point to a .zip file.");
 
-        // 2) Upload project zip
-        const fileRef = ref(storage, `productFiles/${currentUser.uid}/${Date.now()}_${projFile.name}`);
-        const upFile = uploadBytesResumable(fileRef, projFile);
-        const fPromise = new Promise((resolve, reject) => {
-          upFile.on('state_changed', (s)=>{
-            pFile.value = Math.round((s.bytesTransferred / s.totalBytes) * 100);
-          }, reject, async ()=> resolve(await getDownloadURL(fileRef)));
-        });
+ const payload = {
+  name,
+  description: desc,
+  price: priceEl.value.trim() === "" ? null : Number(priceEl.value),
+  category: categoryEl.value.trim() || null,
+  tags: tagsEl.value.trim() === "" ? [] : tagsEl.value.split(",").map(t => t.trim()).filter(Boolean),
+  thumbUrl,
+  fileUrl,
+  demoUrl,
+  sellerId: currentUser.uid,
+  createdAt: serverTimestamp(),
+  status: "active"
+};
 
-        const [thumbUrl, fileUrl] = await Promise.all([tPromise, fPromise]);
+    console.log("creating product ->", { ...payload, createdAt: "(serverTimestamp)" });
 
-        // 3) Create Firestore product doc
-        const docRef = await addDoc(collection(db, "products"), {
-          name,
-          description: desc,
-          thumbUrl,
-          fileUrl,
-          demoUrl: demoUrl || null,
-          sellerId: currentUser.uid,
-          createdAt: serverTimestamp(),
-          status: "active"   // simple flag; you can add moderation later
-        });
+    submitBtn.disabled = true; ok("Publishing…");
+    try {
+      await addDoc(collection(db, "products"), payload);
+      ok("Published! Redirecting…");
+      setTimeout(()=> window.location.href = "prouduct.html", 700);
+    } catch (e) {
+      console.error("addDoc failed", e);
+      err("Publish failed: " + (e?.message || "permission denied"));
+    } finally {
+      submitBtn.disabled = false;
+    }
+  });
+</script>
 
-        ok("Published! Redirecting to dashboard…");
-        setTimeout(()=> window.location.href = "dashboard.html", 800);
-
-      } catch (e) {
-        console.error(e);
-        err("Upload failed. Check your internet or try again.");
-      } finally {
-        submitBtn.disabled = false;
-      }
-    });
-  </script>
-  <style>
-    :root {
-  --primary:#FF6B6B;
-  --secondary:#4ECDC4;
-  --bg:#f4f4f4;
-  --card:#fff;
-  --text:#111;
-}
-
-* {
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:'Poppins',sans-serif;
-}
-
-body {
-  background:var(--bg);
-  color:var(--text);
-}
-
-/* Navbar */
-header.navbar {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:1rem 2rem;
-  background:var(--card);
-  box-shadow:0 2px 5px rgba(0,0,0,.1);
-  position:sticky;
-  top:0;
-  z-index:10;
-}
-#logo {
-  display:flex;
-  align-items:center;
-  gap:8px;
-  font-size:1.5rem;
-  font-weight:700;
-  color:var(--primary);
-}
-#logo img {height:40px;width:auto;}
-nav ul {display:flex;gap:2rem;list-style:none;}
-nav a {text-decoration:none;color:var(--text);}
-nav a:hover {color:var(--primary);}
-
-/* Main wrapper */
-.wrap {
-  max-width:900px;
-  margin:2rem auto;
-  padding:0 1rem;
-}
-
-/* Section heading */
-.title {
-  font-size:2rem;
-  font-weight:700;
-  text-align:center;
-  margin-bottom:1.5rem;
-  background:linear-gradient(135deg,var(--primary),var(--secondary));
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-
-/* Card */
-.card {
-  background:var(--card);
-  border:none;
-  border-radius:20px;
-  padding:2rem;
-  box-shadow:0 10px 25px rgba(0,0,0,.08);
-}
-
-/* Form layout */
-form {display:grid;gap:1.2rem;}
-.row {display:grid;gap:.5rem;}
-label {font-size:.95rem;font-weight:600;color:#333;}
-
-input[type="text"], input[type="url"], textarea {
-  padding:.9rem 1rem;
-  border:1px solid #e5e7eb;
-  border-radius:12px;
-  outline:none;
-  background:#fff;
-  transition:border .2s, box-shadow .2s;
-}
-input:focus, textarea:focus {
-  border-color:var(--primary);
-  box-shadow:0 0 0 3px rgba(255,107,107,.2);
-}
-textarea {min-height:140px;resize:vertical;}
-
-/* File input */
-.filebox {display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;}
-.hint {font-size:.82rem;color:#666;}
-
-/* Buttons */
-.actions {display:flex;gap:.8rem;justify-content:flex-end;margin-top:1rem;}
-.btn {
-  padding:.9rem 1.2rem;
-  border-radius:12px;
-  border:1px solid #e5e7eb;
-  background:var(--card);
-  cursor:pointer;
-  font-weight:600;
-  transition:all .2s;
-}
-.btn:hover {transform:translateY(-2px);}
-
-.btn-primary {background:var(--primary);color:#fff;border:none;}
-.btn-primary:hover {filter:brightness(.95);}
-.btn-secondary {background:var(--secondary);color:#fff;border:none;}
-.btn-secondary:hover {filter:brightness(.95);}
-
-/* Progress */
-progress {
-  width:100%;
-  height:12px;
-  appearance:none;
-  border-radius:999px;
-  overflow:hidden;
-}
-progress::-webkit-progress-bar {background:#f1f5f9;}
-progress::-webkit-progress-value {
-  background:linear-gradient(90deg,var(--secondary),var(--primary));
-}
-
-/* Status message */
-.status {min-height:1.2rem;font-size:.95rem;margin-top:.3rem;}
-.ok {color:#1b8a5a;}
-.err {color:#d64545;}
-
-  </style>
 </body>
 </html>

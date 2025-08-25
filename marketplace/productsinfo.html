@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Product Details - CodeKart</title>
+  <link rel="icon" type="image/png" href="assets/images/codekart-removebg-preview.png">
+  <link rel="stylesheet" href="assets/style/style.css">
+  <style>
+    :root {
+      --primary:#FF6B6B;
+      --secondary:#4ECDC4;
+      --bg:#f4f4f4;
+      --card:#fff;
+      --text:#111;
+    }
+
+    body { background: var(--bg); color: var(--text); }
+
+    .product-details {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .product-details img {
+      width: 100%;
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    }
+
+    .product-meta h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
+
+    .product-meta p {
+      margin: 0.5rem 0;
+      line-height: 1.6;
+    }
+
+    .product-meta .price {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--secondary);
+    }
+
+    .product-meta .btn {
+      display: inline-block;
+      padding: 0.9rem 1.4rem;
+      border-radius: 12px;
+      margin-top: 1rem;
+      text-align: center;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+    }
+    .btn-primary:hover { filter: brightness(0.95); }
+
+    .btn-secondary {
+      background: var(--secondary);
+      color: #fff;
+      border: none;
+      margin-left: 0.5rem;
+    }
+    .btn-secondary:hover { filter: brightness(0.95); }
+.product-details img {
+  width: 100%;
+  max-width: 380px;   /* 👈 controls max size on desktop */
+  margin: 0 auto;     /* centers it in its column */
+  display: block;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+/* Mobile responsive */
+@media(max-width: 768px) {
+  .product-details img {
+    max-width: 100%;  /* 👈 on phones, let it fill width */
+  }
+}
+
+
+    /* Responsive */
+    @media(max-width: 768px) {
+      .product-details {
+        grid-template-columns: 1fr;
+      }
+      .product-meta h2 {
+        font-size: 1.6rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <header class="navbar">
+    <div id="logo">
+      <img src="assets/images/codekart-removebg-preview.png" alt="CodeKart Logo">
+      <span>CodeKart</span>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="explore.html">Explore</a></li>
+        <li><a href="sell.html">Sell</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <section class="card product-details" id="product-details">
+      <p>Loading product…</p>
+    </section>
+  </main>
+
+  <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDIt727HxMoAk8jMwhLH2-zcLXGmBdj_Ys",
+    authDomain: "codekart-5652e.firebaseapp.com",
+    projectId: "codekart-5652e",
+    storageBucket: "codekart-5652e.firebasestorage.app",
+    messagingSenderId: "430655059434",
+    appId: "1:430655059434:web:290df76af0c7bf8c882e93",
+    measurementId: "G-WHPZ6BWZ4Q"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get("id");
+  const container = document.getElementById("product-details");
+
+  async function loadProduct() {
+    if (!id) {
+      container.innerHTML = "<p>Invalid product link.</p>";
+      return;
+    }
+
+    try {
+      const snap = await getDoc(doc(db,"products",id));
+      if (!snap.exists()) {
+        container.innerHTML = "<p>Product not found.</p>";
+        return;
+      }
+
+      const d = snap.data();
+      container.innerHTML = `
+        <img src="${d.thumbUrl}" alt="${d.name}">
+        <div class="product-meta">
+          <h2>${d.name}</h2>
+          <p>${d.description}</p>
+          <p class="price">${d.price ? "₹"+d.price : "Free"}</p>
+          ${d.demoUrl ? `<a href="${d.demoUrl}" target="_blank" class="btn btn-secondary">Live Demo</a>` : ""}
+          <a href="${d.fileUrl}" class="btn btn-primary">Download</a>
+        </div>
+      `;
+    } catch(e) {
+      console.error(e);
+      container.innerHTML = "<p>Error loading product.</p>";
+    }
+  }
+  loadProduct();
+  </script>
+</body>
+</html>
