@@ -3,114 +3,98 @@
 <head>
   <meta charset="UTF-8">
   <title>Product Details - CodeKart</title>
-  <link rel="icon" type="image/png" href="assets/images/codekart-removebg-preview.png">
+  <link rel="icon" type="image/png" href="assets/images/Technological_Circuit_Logo_in_Orange-removebg-preview.png">
   <link rel="stylesheet" href="assets/style/style.css">
   <style>
-    :root {
-      --primary:#FF6B6B;
-      --secondary:#4ECDC4;
-      --bg:#f4f4f4;
-      --card:#fff;
-      --text:#111;
-    }
+:root {
+  --primary:#FF6B6B;
+  --secondary:#4ECDC4;
+  --bg:#f4f4f4;
+  --card:#fff;
+  --text:#111;
+}
 
-    body { background: var(--bg); color: var(--text); }
+body { background: var(--bg); color: var(--text); }
 
-    .product-details {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      align-items: start;
-    }
+/* 2-column layout on desktop */
+.product-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
 
-    .product-details img {
-      width: 100%;
-      border-radius: 16px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-    }
-
-    .product-meta h2 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      color: var(--primary);
-    }
-
-    .product-meta p {
-      margin: 0.5rem 0;
-      line-height: 1.6;
-    }
-
-    .product-meta .price {
-      font-size: 1.3rem;
-      font-weight: 600;
-      color: var(--secondary);
-    }
-
-    .product-meta .btn {
-      display: inline-block;
-      padding: 0.9rem 1.4rem;
-      border-radius: 12px;
-      margin-top: 1rem;
-      text-align: center;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-      transition: 0.2s;
-    }
-
-    .btn-primary {
-      background: var(--primary);
-      color: #fff;
-      border: none;
-    }
-    .btn-primary:hover { filter: brightness(0.95); }
-
-    .btn-secondary {
-      background: var(--secondary);
-      color: #fff;
-      border: none;
-      margin-left: 0.5rem;
-    }
-    .btn-secondary:hover { filter: brightness(0.95); }
+/* product image */
 .product-details img {
   width: 100%;
-  max-width: 380px;   /* 👈 controls max size on desktop */
-  margin: 0 auto;     /* centers it in its column */
+  max-width: 380px;   /* limit size on desktop */
+  margin: 0 auto;     /* center horizontally */
   display: block;
   border-radius: 16px;
   box-shadow: 0 6px 20px rgba(0,0,0,0.08);
 }
 
-/* Mobile responsive */
+/* meta text */
+.product-meta h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: var(--primary);
+}
+.product-meta p {
+  margin: 0.5rem 0;
+  line-height: 1.6;
+}
+.product-meta .price {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--secondary);
+}
+.product-meta .btn {
+  display: inline-block;
+  padding: 0.9rem 1.4rem;
+  border-radius: 12px;
+  margin-top: 1rem;
+  text-align: center;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: 0.2s;
+}
+.btn-primary { background: var(--primary); color:#fff; }
+.btn-primary:hover { filter: brightness(0.95); }
+.btn-secondary { background: var(--secondary); color:#fff; margin-left:0.5rem; }
+.btn-secondary:hover { filter: brightness(0.95); }
+
+/* 📱 Responsive fix */
 @media(max-width: 768px) {
+  .product-details {
+    grid-template-columns: 1fr;   /* stack vertically */
+    gap: 1.5rem;                  /* add space between img & text */
+  }
   .product-details img {
-    max-width: 100%;  /* 👈 on phones, let it fill width */
+    max-width: 100%;              /* full width on mobile */
+    margin-bottom: 1rem;          /* space below img */
+  }
+  .product-meta {
+    text-align: center;           /* center text/buttons if you want */
+  }
+  .product-meta h2 {
+    font-size: 1.6rem;
   }
 }
 
-
-    /* Responsive */
-    @media(max-width: 768px) {
-      .product-details {
-        grid-template-columns: 1fr;
-      }
-      .product-meta h2 {
-        font-size: 1.6rem;
-      }
-    }
   </style>
 </head>
 <body>
   <!-- Navbar -->
   <header class="navbar">
     <div id="logo">
-      <img src="assets/images/codekart-removebg-preview.png" alt="CodeKart Logo">
-      <span>CodeKart</span>
+ <img src="assets/images/Technological_Circuit_Logo_in_Orange-removebg-preview.png" alt="CodeKart Logo">      <span>CodeKart</span>
     </div>
     <nav>
       <ul>
         <li><a href="index.html">Home</a></li>
-        <li><a href="explore.html">Explore</a></li>
+        <li><a href="prouduct.html">Explore</a></li>
         <li><a href="sell.html">Sell</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="contact.html">Contact</a></li>
@@ -118,11 +102,22 @@
     </nav>
   </header>
 
-  <main class="wrap">
-    <section class="card product-details" id="product-details">
-      <p>Loading product…</p>
-    </section>
-  </main>
+<main class="wrap">
+  <section class="card product-details" id="product-details">
+    <!-- JS will insert content like: -->
+    <div class="product-image">
+      <img src="…" alt="Product preview">
+    </div>
+    <div class="product-meta">
+      <h2>Template Name</h2>
+      <p>description…</p>
+      <p class="price">₹499</p>
+      <a href="#" class="btn btn-secondary" target="_blank">Live Demo</a>
+      <a href="#" class="btn btn-primary">Download</a>
+    </div>
+  </section>
+</main>
+
 
   <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
